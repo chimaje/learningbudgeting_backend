@@ -57,5 +57,5 @@ See the [LICENSE](LICENSE) file for more information.
 
 ## 👨‍💻 Author
 **Your Name**  
-- GitHub: [@yourusername](https://github.com/chimaje)  
-- LinkedIn: [linkedin.com/in/yourlinkedin](https://www.linkedin.com/in/chimaje-agada-6b19481b9/)
+- GitHub: [@chimaje](https://github.com/chimaje)  
+- LinkedIn: [linkedin.com/in/chimaje](https://www.linkedin.com/in/chimaje-agada-6b19481b9/)
