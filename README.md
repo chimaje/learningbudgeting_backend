@@ -26,8 +26,8 @@ This backend is built using **Spring Boot** for scalable API development and **F
 
 ### 1. **Clone the Repository**
 ```bash
-git clone https://github.com/yourusername/learnbudget-backend.git
-cd learnbudget-backend
+git clone https://github.com/chimaje/learningbudgeting_backend.git
+cd learningbudget-backend
 ```
 
 ### 2. **Run the Application**
@@ -45,7 +45,7 @@ http://localhost:8080
 
 ## 🌐 Frontend Repository
 The **Next.js frontend** for LearnBudget is located here:  
-[LearnBudget Frontend Repository](https://github.com/yourusername/learnbudget-frontend)
+[LearnBudget Frontend Repository](https://github.com/chimaje/learningbudgeting_frontend)
 
 ---
 
@@ -57,5 +57,5 @@ See the [LICENSE](LICENSE) file for more information.
 
 ## 👨‍💻 Author
 **Your Name**  
-- GitHub: [@yourusername](https://github.com/yourusername)  
-- LinkedIn: [linkedin.com/in/yourlinkedin](https://linkedin.com/in/yourlinkedin)
+- GitHub: [@yourusername](https://github.com/chimaje)  
+- LinkedIn: [linkedin.com/in/yourlinkedin](https://www.linkedin.com/in/chimaje-agada-6b19481b9/)
