@@ -8,7 +8,14 @@ The **backend** for **LearnBudget**, a full-stack budgeting application that hel
 
 LearnBudget takes inspiration from the **detailed Excel budgeting sheets** people often use but provides a **smarter, simpler, and more automated experience**. It’s built to teach users how to budget while helping them stay on top of their **income, expenses, and savings goals**.
 
-This backend is built using **Spring Boot** for scalable API development and **Firebase** for secure authentication. The frontend, built with **Next.js**, consumes the APIs to deliver a seamless budgeting experience.
+This backend is built using **Spring Boot** for scalable API development 
+
+## UML Diagram
+
+The UML diagram below presents a high-level view of the LearnBudget backend architecture, detailing the relationships between core domain entities, repositories, service layers, controllers, and security components. This design reflects the current system structure and is subject to change as the application evolves
+
+<img width="1536" height="1024" alt="UML class diagram for financial system" src="https://github.com/user-attachments/assets/eafbcac4-87bc-42ba-93ca-aa88357b1452" />
+
 
 ---
 
@@ -16,7 +23,6 @@ This backend is built using **Spring Boot** for scalable API development and **F
 
 **Backend:**
 - [Spring Boot](https://spring.io/projects/spring-boot) – API development
-- [Firebase](https://firebase.google.com/) – Authentication & cloud services
 - [PostgreSQL/MySQL] *(optional)* – For relational data
 - [Maven](https://maven.apache.org/) – Dependency management
 
