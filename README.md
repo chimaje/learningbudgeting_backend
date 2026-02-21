@@ -23,7 +23,7 @@ The UML diagram below presents a high-level view of the LearnBudget backend arch
 
 **Backend:**
 - [Spring Boot](https://spring.io/projects/spring-boot) – API development
-- [PostgreSQL/MySQL] *(optional)* – For relational data
+- [PostgreSQL]  – For relational data
 - [Maven](https://maven.apache.org/) – Dependency management
 
 ---
