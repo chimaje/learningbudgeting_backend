@@ -49,7 +49,7 @@ public class Expense {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private ExpenseStatus status = ExpenseStatus.CONFIRMED;
+    private ExpenseStatus status = ExpenseStatus.PENDING;
 
     @CreationTimestamp
     @Column(name = "created_at", nullable = false, updatable = false)
