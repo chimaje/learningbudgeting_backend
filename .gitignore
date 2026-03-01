@@ -36,3 +36,12 @@ build/
 
 ### Mac OS ###
 .DS_Store
+
+# Environment variables - NEVER COMMIT
+.env
+.env.local
+.env.*.local
+
+# Application properties with secrets
+application-local.yml
+application-prod.yml

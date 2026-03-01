@@ -14,7 +14,7 @@ CREATE TABLE categories (
     id BIGSERIAL PRIMARY KEY,
     name VARCHAR(100) NOT NULL,
     description TEXT,
-    icon_name VARCHAR(50),
+    icon_name VARCHAR(50), -- for icon generation on frontend
     color VARCHAR(7),
     is_default BOOLEAN NOT NULL DEFAULT false,
     user_id BIGINT REFERENCES users(id) ON DELETE CASCADE,
@@ -69,7 +69,7 @@ CREATE TABLE receipts (
     file_name VARCHAR(255) NOT NULL,
     file_path VARCHAR(500),
     file_url TEXT,
-    expense_id BIGINT UNIQUE REFERENCES expenses(id) ON DELETE CASCADE,
+    expense_id BIGINT UNIQUE REFERENCES expenses(id) ON DELETE CASCADE, -- this connects to expense on a one to one relationship
     ocr_text TEXT,
     ocr_data JSONB,
     is_processed BOOLEAN NOT NULL DEFAULT false,
