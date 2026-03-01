@@ -4,13 +4,16 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.learnbudget.dto.request.LoginRequest;
 import org.learnbudget.dto.request.RegisterRequest;
+import org.learnbudget.dto.request.UpdateUserRequest;
 import org.learnbudget.dto.response.AuthResponse;
 import org.learnbudget.dto.response.UserResponse;
 import org.learnbudget.exception.DuplicateEmailException;
 import org.learnbudget.exception.InvalidCredentialsException;
+import org.learnbudget.exception.UnauthorizedException;
 import org.learnbudget.exception.UserNotFoundException;
 import org.learnbudget.model.User;
 import org.learnbudget.repository.UserRepository;
+import org.learnbudget.service.JWTService;
 import org.learnbudget.service.UserService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -27,7 +30,7 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
-    // JwtService will be added later when we implement JWT
+    private final JWTService jwtService;
 
     @Override
     public UserResponse register(RegisterRequest request) {
@@ -73,16 +76,41 @@ public class UserServiceImpl implements UserService {
 
         log.info("User logged in successfully: {}", user.getEmail());
 
-        // TODO: Generate JWT token (will implement later)
-        String token = "temporary-token-" + user.getId();
+        String accesstoken = jwtService.generateAccessToken(user);
+        String refreshtoken = jwtService.generateRefreshToken(user);
 
         return AuthResponse.builder()
-                .token(token)
+                .accessToken(accesstoken)
+                .refreshToken(refreshtoken)
                 .type("Bearer")
                 .user(mapToUserResponse(user))
                 .build();
     }
+    @Override
+    public AuthResponse refreshToken(String refreshToken) {
 
+        if (!jwtService.isRefreshTokenValid(refreshToken)) {
+            log.warn("Token refresh failed: Invalid refresh token");
+            throw new InvalidCredentialsException("Invalid refresh token");
+        }
+
+        String email = jwtService.extractEmail(refreshToken);
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new UserNotFoundException("User not found with email: " + email));
+
+        // Generate new tokens
+        String newAccessToken = jwtService.generateAccessToken(user);
+        String newRefreshToken = jwtService.generateRefreshToken(user);
+
+        log.info("Token refreshed successfully for user: {}", email);
+
+        return AuthResponse.builder()
+                .accessToken(newAccessToken)
+                .refreshToken(newRefreshToken)
+                .type("Bearer")
+                .user(mapToUserResponse(user))
+                .build();
+    }
     @Override
     @Transactional(readOnly = true)
     public UserResponse findByEmail(String email) {
@@ -132,7 +160,52 @@ public class UserServiceImpl implements UserService {
         userRepository.deleteById(id);
         log.info("User deleted successfully with ID: {}", id);
     }
+    @Override
+    public UserResponse updateUser(Long id, UpdateUserRequest request, String authenticatedUserEmail) {
+        log.info("Updating user with ID: {}", id);
 
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new UserNotFoundException("User not found with ID: " + id));
+
+        // Check if user is updating their own profile
+        if (!user.getEmail().equals(authenticatedUserEmail.toLowerCase())) {
+            throw new UnauthorizedException("You can only update your own profile");
+        }
+
+        // Update fields if provided
+        if (request.getFirstName() != null && !request.getFirstName().isBlank()) {
+            user.setFirstName(request.getFirstName());
+        }
+
+        if (request.getLastName() != null && !request.getLastName().isBlank()) {
+            user.setLastName(request.getLastName());
+        }
+
+        if (request.getPassword() != null && !request.getPassword().isBlank()) {
+            user.setPassword(passwordEncoder.encode(request.getPassword()));
+        }
+
+        User updatedUser = userRepository.save(user);
+        log.info("User updated successfully with ID: {}", id);
+
+        return mapToUserResponse(updatedUser);
+    }
+
+    @Override
+    public void deleteUser(Long id, String authenticatedUserEmail) {
+        log.info("Deleting user with ID: {}", id);
+
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new UserNotFoundException("User not found with ID: " + id));
+
+        // Check if user is deleting their own profile
+        if (!user.getEmail().equals(authenticatedUserEmail.toLowerCase())) {
+            throw new UnauthorizedException("You can only delete your own profile");
+        }
+
+        userRepository.deleteById(id);
+        log.info("User deleted successfully with ID: {}", id);
+    }
     /**
      * Map User entity to UserResponse DTO
      */

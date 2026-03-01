@@ -3,6 +3,7 @@ package org.learnbudget.service;
 
 import org.learnbudget.dto.request.LoginRequest;
 import org.learnbudget.dto.request.RegisterRequest;
+import org.learnbudget.dto.request.UpdateUserRequest;
 import org.learnbudget.dto.response.AuthResponse;
 import org.learnbudget.dto.response.UserResponse;
 import org.learnbudget.exception.DuplicateEmailException;
@@ -28,7 +29,12 @@ public interface UserService {
      * @throws InvalidCredentialsException if credentials are invalid
      */
     AuthResponse login(LoginRequest request);
-
+    /**
+     * Refresh access token using refresh token
+     * @param refreshToken the refresh token
+     * @return new auth response with fresh tokens
+     */
+    AuthResponse refreshToken(String refreshToken);
     /**
      * Find user by email
      * @param email user's email
@@ -64,4 +70,13 @@ public interface UserService {
      * @throws UserNotFoundException if user not found
      */
     void deleteById(Long id);
+    /**
+     * Update user information
+     */
+    UserResponse updateUser(Long id, UpdateUserRequest request, String authenticatedUserEmail);
+
+    /**
+     * Delete user (only self or admin)
+     */
+    void deleteUser(Long id, String authenticatedUserEmail);
 }
