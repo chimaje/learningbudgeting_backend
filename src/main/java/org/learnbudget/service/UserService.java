@@ -18,7 +18,6 @@ public interface UserService {
      * Register a new user
      * @param request registration details
      * @return user response with details
-     * @throws DuplicateEmailException if email already exists
      */
     UserResponse register(RegisterRequest request);
 
@@ -26,7 +25,6 @@ public interface UserService {
      * Authenticate user and generate token
      * @param request login credentials
      * @return authentication response with JWT token
-     * @throws InvalidCredentialsException if credentials are invalid
      */
     AuthResponse login(LoginRequest request);
     /**
@@ -38,16 +36,12 @@ public interface UserService {
     /**
      * Find user by email
      * @param email user's email
-     * @return user response
-     * @throws UserNotFoundException if user not found
      */
     UserResponse findByEmail(String email);
 
     /**
      * Find user by ID
      * @param id user's ID
-     * @return user response
-     * @throws UserNotFoundException if user not found
      */
     UserResponse findById(Long id);
 
@@ -67,7 +61,7 @@ public interface UserService {
     /**
      * Delete user by ID
      * @param id user's ID
-     * @throws UserNotFoundException if user not found
+     *
      */
     void deleteById(Long id);
     /**
