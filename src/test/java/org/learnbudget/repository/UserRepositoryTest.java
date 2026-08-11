@@ -550,8 +550,8 @@ class UserRepositoryTest {
             User saved = userRepository.save(userWithLongName);
 
             // Assert
-            assertThat(saved.getFirstName()).hasSize(100);
-            assertThat(saved.getLastName()).hasSize(100);
+            assertThat(saved.getFirstName()).hasSize(50);
+            assertThat(saved.getLastName()).hasSize(50);
         }
 
         @Test
