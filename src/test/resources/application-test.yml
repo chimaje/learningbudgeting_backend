@@ -1,27 +1,24 @@
 spring:
+  config:
+    activate:
+      on-profile: test
   datasource:
-    url: jdbc:h2:mem:testdb;MODE=PostgreSQL
-    driver-class-name: org.h2.Driver
+    url: jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE;MODE=MySQL
+    driverClassName: org.h2.Driver
     username: sa
     password:
-
   jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
     hibernate:
-      ddl-auto: create-drop  # H2 creates tables automatically for tests
-    show-sql: true
+      ddl-auto: create-drop
+    show-sql: false
     properties:
       hibernate:
-        dialect: org.hibernate.dialect.H2Dialect
         format_sql: true
-
-  flyway:
-    enabled: false  # Disable Flyway for tests (H2 creates tables from entities)
-
+    defer-datasource-initialization: true
+  test:
+    database:
+      replace: any
   h2:
     console:
-      enabled: true
-
-logging:
-  level:
-    org.hibernate.SQL: DEBUG
-    org.hibernate.type.descriptor.sql.BasicBinder: TRACE
+      enabled: false
