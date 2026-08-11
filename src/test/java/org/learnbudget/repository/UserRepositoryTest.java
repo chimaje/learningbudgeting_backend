@@ -538,7 +538,7 @@ class UserRepositoryTest {
         @DisplayName("Should handle very long names")
         void shouldHandleVeryLongNames() {
             // Arrange
-            String longName = "A".repeat(50); // 100 character name
+            String longName = "A".repeat(100); // 100 character name
             User userWithLongName = User.builder()
                     .email("long@example.com")
                     .password("password")
@@ -550,8 +550,8 @@ class UserRepositoryTest {
             User saved = userRepository.save(userWithLongName);
 
             // Assert
-            assertThat(saved.getFirstName()).hasSize(50);
-            assertThat(saved.getLastName()).hasSize(50);
+            assertThat(saved.getFirstName()).hasSize(100);
+            assertThat(saved.getLastName()).hasSize(100);
             assertThat(saved.getId()).isNotNull();
         }
 
