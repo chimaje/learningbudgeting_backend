@@ -552,6 +552,7 @@ class UserRepositoryTest {
             // Assert
             assertThat(saved.getFirstName()).hasSize(50);
             assertThat(saved.getLastName()).hasSize(50);
+            assertThat(saved.getId()).isNotNull();
         }
 
         @Test
