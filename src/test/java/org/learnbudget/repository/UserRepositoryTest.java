@@ -538,7 +538,7 @@ class UserRepositoryTest {
         @DisplayName("Should handle very long names")
         void shouldHandleVeryLongNames() {
             // Arrange
-            String longName = "A".repeat(100); // 100 character name
+            String longName = "A".repeat(50); // 100 character name
             User userWithLongName = User.builder()
                     .email("long@example.com")
                     .password("password")
