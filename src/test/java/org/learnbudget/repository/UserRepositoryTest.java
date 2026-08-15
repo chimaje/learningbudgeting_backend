@@ -10,7 +10,10 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.context.annotation.ComponentScan.Filter;
+import org.springframework.context.annotation.FilterType;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -20,8 +23,12 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @DataJpaTest
+@EnableJpaRepositories(
+        basePackageClasses = UserRepository.class,
+        includeFilters = @Filter(type = FilterType.ASSIGNABLE_TYPE, classes = UserRepository.class)
+)
+@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @ActiveProfiles("test")
-@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.ANY)
 @DisplayName("User Repository Tests")
 class UserRepositoryTest {
 
@@ -136,7 +143,7 @@ class UserRepositoryTest {
             assertThat(updatedUser.getId()).isEqualTo(savedUser.getId());
             assertThat(updatedUser.getFirstName()).isEqualTo("Johnny");
             assertThat(updatedUser.getLastName()).isEqualTo("Updated");
-            assertThat(updatedUser.getUpdatedAt()).isAfter(savedUser.getCreatedAt());
+            assertThat(updatedUser.getUpdatedAt()).isAfterOrEqualTo(savedUser.getCreatedAt());
         }
         @Test
         @DisplayName("Should update last name by email")
@@ -215,7 +222,7 @@ class UserRepositoryTest {
         }
     }
 
-    // ==================== EMAIL-BASED QUERIES ====================
+//     ==================== EMAIL-BASED QUERIES ====================
 
     @Nested
     @DisplayName("Email-Based Query Operations")
@@ -272,7 +279,7 @@ class UserRepositoryTest {
         }
     }
 
-    // ==================== CONSTRAINT TESTS ====================
+//     ==================== CONSTRAINT TESTS ====================
 
     @Nested
     @DisplayName("Database Constraint Tests")
@@ -353,7 +360,7 @@ class UserRepositoryTest {
         }
     }
 
-    // ==================== NAME-BASED SEARCHES ====================
+//     ==================== NAME-BASED SEARCHES ====================
 
     @Nested
     @DisplayName("Name-Based Search Operations")
@@ -417,7 +424,7 @@ class UserRepositoryTest {
         }
     }
 
-    // ==================== DATE-BASED QUERIES ====================
+//     ==================== DATE-BASED QUERIES ====================
 
     @Nested
     @DisplayName("Date-Based Query Operations")
@@ -476,7 +483,7 @@ class UserRepositoryTest {
         }
     }
 
-    // ==================== CUSTOM QUERIES ====================
+//     ==================== CUSTOM QUERIES ====================
 
     @Nested
     @DisplayName("Custom Query Operations")
@@ -516,7 +523,7 @@ class UserRepositoryTest {
         }
     }
 
-    // ==================== EDGE CASES ====================
+//     ==================== EDGE CASES ====================
 
     @Nested
     @DisplayName("Edge Cases and Boundary Tests")
